@@ -1,0 +1,145 @@
+package college.demo5;
+
+public class Program {
+	/*
+	//race condition -- when deposit() and withdraw() methods are not declared synchronized
+	public static void main(String[] args) {
+		Account acc = new Account(1, "Savings", 10000.00);
+		
+		class depositThread extends Thread{
+			
+			@Override
+			public void run() {
+				for(int i = 1; i<= 10000; i++) {
+					acc.deposit(100);
+					System.out.println("Balance after deposit: "+acc.getBalance());
+				}
+			}
+		}
+		
+		depositThread dt = new depositThread();
+		dt.start();
+		
+		
+		class withDrawThread extends Thread{
+			@Override
+			public void run() {
+				for(int i =1; i<= 10000; i++) {
+					acc.withdraw(100);
+					System.out.println("Balance after withdraw: "+acc.getBalance());
+				}
+			}
+		}
+		
+		withDrawThread wt = new withDrawThread();
+		wt.start();
+		
+		try {
+			dt.join();
+			wt.join();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Final balance: "+acc.getBalance());
+	}*/
+	
+	
+	/*
+	//avoid race condition -- when deposit() and withdraw() methods are not declared synchronized
+	// using "synchronized" block
+	public static void main(String[] args) {
+		Account acc = new Account(1, "Savings", 10000.00);
+		
+		class depositThread extends Thread{
+			
+			@Override
+			public void run() {
+				for(int i = 1; i<= 10000; i++) {
+					
+					synchronized (acc) 
+					{//LOCK
+						acc.deposit(100);
+						System.out.println("Balance after deposit: " + acc.getBalance());
+						
+					}//UNLOCK
+				}
+			}
+		}
+		
+		depositThread dt = new depositThread();
+		dt.start();
+		
+		
+		class withDrawThread extends Thread{
+			@Override
+			public void run() {
+				for(int i =1; i<= 10000; i++) {
+					synchronized (acc) 
+					{//LOCK
+						acc.withdraw(100);
+						System.out.println("Balance after withdraw: " + acc.getBalance());
+					}//UNLOCK
+				}
+			}
+		}
+		
+		withDrawThread wt = new withDrawThread();
+		wt.start();
+		
+		try {
+			dt.join();
+			wt.join();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Final balance: "+acc.getBalance());
+	}*/
+	
+	
+	//directly make the method deposit() and withdraw() synchronized
+	public static void main(String[] args) {
+		Account acc = new Account(1, "Savings", 10000.00);
+		
+		class depositThread extends Thread{
+			
+			@Override
+			public void run() {
+				for(int i = 1; i<= 10000; i++) {
+					acc.deposit(100);
+					System.out.println("Balance after deposit: "+acc.getBalance());
+				}
+			}
+		}
+		
+		depositThread dt = new depositThread();
+		dt.start();
+		
+		
+		class withDrawThread extends Thread{
+			@Override
+			public void run() {
+				for(int i =1; i<= 10000; i++) {
+					acc.withdraw(100);
+					System.out.println("Balance after withdraw: "+acc.getBalance());
+				}
+			}
+		}
+		
+		withDrawThread wt = new withDrawThread();
+		wt.start();
+		
+		try {
+			dt.join();
+			wt.join();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Final balance: "+acc.getBalance());
+	}
+}
