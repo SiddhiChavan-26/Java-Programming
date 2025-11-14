@@ -1,96 +1,43 @@
-import java.time.LocalDate;
-import java.time.Period;
+import java.util.Scanner;
 
-class Person{
-	private String name;
-	private LocalDate birthdate;
-	private double height;
-	private double weight;
-	private String address;
-	
-	public Person(String name, LocalDate birthdate, double height, double weight, String address) {
-		this.name = name;
-		this.birthdate = birthdate;
-		this.height = height;
-		this.weight = weight;
-		this.address = address;
-	}
-	
-	public int calculateAge() {
-		LocalDate today = LocalDate.now();
-		return Period.between(birthdate, today).getYears();
-	}
-	
-	public void displayPersonInfo() {
-		System.out.println("\nName: "+ name + "\nBirthdate: " + birthdate + "\nHeight: " + height + "\nWeight: "+ weight + "\nAddress: "+address);
-	}
-}
-
-class Student extends Person{
-	private int roll;
-	private double[] marks;
-	
-	public Student(String name, LocalDate birthdate, double weight, double height, String address, int roll, double[] marks) {
-		super(name, birthdate, weight, height, address);
-		this.roll = roll;
-		this.marks = marks;
-	}
-	
-	public double calculateAvg() {
-		double sum = 0;
-		for(double m : marks) {
-			sum += m;
-		}
-		
-		return sum / marks.length;
-	}
-	
-	public void displayStudentInfo() {
-		displayPersonInfo();
-		System.out.println("Roll no: " + roll);
-		System.out.println("Average marks: " + calculateAvg());
-	}
-}
-
-class Employee extends Person{
-	private int empId;
-	private double salary;
-	
-	public Employee(String name, LocalDate birthdate, double height, double weight, String address, int empId, double salary) {
-		super(name , birthdate, height, weight, address);
-		this.empId = empId;
-		this.salary = salary;
-	}
-	
-	public double  calculateTax() {
-		if (salary > 50000) {
-            return salary * 0.10;
-        } else {
-            return salary * 0.05;
-        }
-	}
-	
-	public void displayEmpInfo() {
-		displayPersonInfo();
-		System.out.println("Employee id: "+ empId);
-		System.out.println("Salary: "+ salary);
-		System.out.println("Tax : Rs "+ calculateTax());
-	}
-}
 public class Program {
-	public static void main(String args []) {
-		double[] marks = {85.5, 90.0, 78.5, 88.0};
-	    Student s1 = new Student("Riya Sharma", LocalDate.of(2005, 10, 15), 170.0, 65.0,
-	                             "Pune, India", 101, marks);
-	    
-	    Employee e1 = new Employee("Priya Deshmukh", LocalDate.of(1995, 7, 22), 160.0, 55.0,
-	            "Mumbai, India", 2001, 60000.0);
-	    
-	    System.out.println("----------Student detailes----------");
-	    s1.displayStudentInfo();
-	    
-	    System.out.println("\n----------Employee detailes----------");
-	    e1.displayEmpInfo();
-	}
-	
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter the date: ");
+        int date = sc.nextInt();
+        System.out.print("Enter the month: ");
+        int month = sc.nextInt();
+        System.out.print("Enter the year: ");
+        int year = sc.nextInt();
+
+        // Zeller's Congruence
+        int originalMonth = month;
+        int originalYear = year;
+
+        if (month < 3) {
+            month += 12;
+            year -= 1;
+        }
+
+        int k = year % 100;
+        int j = year / 100;
+
+        int h = (date + (13 * (month + 1)) / 5 + k + (k / 4) + (j / 4) + (5 * j)) % 7;
+
+        String day = "";
+        switch (h) {
+            case 0: day = "Saturday"; break;
+            case 1: day = "Sunday"; break;
+            case 2: day = "Monday"; break;
+            case 3: day = "Tuesday"; break;
+            case 4: day = "Wednesday"; break;
+            case 5: day = "Thursday"; break;
+            case 6: day = "Friday"; break;
+        }
+
+        System.out.println("The day on " + date + "/" + originalMonth + "/" + originalYear + " is " + day);
+
+        sc.close();
+    }
 }
